@@ -1,15 +1,24 @@
 import React, { useEffect, useState } from 'react';
-import { useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 
 import Price from '../../components/Price/Price';
 import StarRating from '../../components/StarRating/StarRating';
 import Tags from '../../components/Tags/Tags';
 import { getById } from '../../services/articleServices';
 import classes from './articlePage.module.css';
+import { useCart } from '../../hooks/useCart';
 
 export default function ArticlePage() {
     const [article, setArticle] = useState({});
     const { id } = useParams();
+    const { addToCart } = useCart();
+    const navigate = useNavigate();
+
+    const handleAddToCart = () => {
+        addToCart(article);
+        navigate('/cart');
+
+    };
 
 
     useEffect(() => {
@@ -56,7 +65,7 @@ export default function ArticlePage() {
                             <Price price={article.price} />
                         </div>
 
-                        <button>Add To Cart</button>
+                        <button onClick={handleAddToCart}>Add To Cart</button>
                     </div>
                 </div>
             )}
